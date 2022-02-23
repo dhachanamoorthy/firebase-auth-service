@@ -58,6 +58,20 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## .env 
+```
+FIREBASE_ID=/* Your Project Id */
+PROJECT_KEY=/* Your Project Key */
+PROJECT_CLIENT_EMAIL=/*Your Project Email*/
+```
+
+## Prerequisite:
+- Firebase Project setup:
+    - Create a firebase project from here :[Firebase Console](https://console.firebase.google.com/)
+    - Enable Auth Providers from  - Authentication -> Sign-in-methods
+    - Get Firebase Credentials from - Project Settings -> Service Accounts -> Generate New Private Key
+
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
