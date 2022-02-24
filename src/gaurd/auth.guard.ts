@@ -2,20 +2,11 @@ import { CanActivate, ExecutionContext, Logger, OnModuleInit, UnauthorizedExcept
 import { Observable } from 'rxjs';
 import admin from 'firebase-admin';
 
-export class AuthGuard implements CanActivate, OnModuleInit {
-  onModuleInit() {
-    admin.initializeApp({
-      credential: admin.credential.cert({
-        projectId: process.env.PROJECT_ID,
-        privateKey: process.env.PROJECT_KEY,
-        clientEmail: process.env.PROJECT_CLIENT_EMAIL,
-      }),
-    });
-  }
+export class AuthGuard implements CanActivate{
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const token = context.getArgs()[0]?.header?.authorization?.split(' ')[1];
+    const token = context.getArgs()[0]?.headers?.authorization?.split(' ')[1];
     if (token?.length > 0) {
       const isValid = admin
         .auth()
