@@ -60,6 +60,7 @@ $ npm run test:cov
 
 ## .env 
 ```
+PORT=3000 /* Default */
 FIREBASE_ID=/* Your Project Id */
 PROJECT_KEY=/* Your Project Key */
 PROJECT_CLIENT_EMAIL=/*Your Project Email*/
