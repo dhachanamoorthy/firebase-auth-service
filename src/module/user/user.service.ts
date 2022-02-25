@@ -51,7 +51,19 @@ export class UserService {
 			let result = await admin.auth().setCustomUserClaims(uid, userInfo);
 			this.revokeRefreshToken(uid);
 			this.logger.log(EXIT, "setCustomClaims()");
-			return result;
+			return { msg: "custom-claims updated successfully" };
+		} catch (err) {
+			this.logger.error(ERROR, err);
+			throw err;
+		}
+	}
+
+	async deleteUser(uid: string) {
+		try {
+			this.logger.log(ENTER, "deleteUser()");
+			admin.auth().deleteUser(uid);
+			this.logger.log(EXIT, "deleteUser()");
+			return { msg: "user deleted successfully" };
 		} catch (err) {
 			this.logger.error(ERROR, err);
 			throw err;
@@ -63,7 +75,7 @@ export class UserService {
 			this.logger.log(ENTER, "revokeRefreshToken()");
 			let result = admin.auth().revokeRefreshTokens(uid);
 			this.logger.log(EXIT, "revokeRefreshToken()");
-			return result;
+			return { msg: "token revoked successfully" };
 		} catch (err) {
 			this.logger.error(ERROR, err);
 			throw err;

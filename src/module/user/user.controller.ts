@@ -1,6 +1,7 @@
 import {
 	Body,
 	Controller,
+	Delete,
 	Get,
 	Logger,
 	Patch,
@@ -18,6 +19,7 @@ import {
 	CustomUserDetailsDto,
 	UpdateUserRequestDto,
 } from "./dto/update.user.request.dto";
+import { Auth } from "firebase-admin/lib/auth/auth";
 
 @ApiTags("User")
 @Controller("/user")
@@ -72,7 +74,7 @@ export class UserController {
 	@ApiBearerAuth("JWT-auth")
 	@UseGuards(AuthGuard)
 	@Patch("/update")
-	async updateUser9(@Req() req, @Body() user: UpdateUserRequestDto) {
+	async updateUser(@Req() req, @Body() user: UpdateUserRequestDto) {
 		try {
 			this.logger.log(ENTER, "updateUser()");
 			const userDetail = req.userDetail;
@@ -105,9 +107,48 @@ export class UserController {
 				userInfo
 			);
 			this.logger.log(EXIT, "setCustomUserDetails()");
+            return result;
 		} catch (err) {
 			this.logger.error(ERROR, "setCustomUserDetails()");
 			throw err;
 		}
+	}
+
+    @ApiBearerAuth("JWT-auth")
+    @UseGuards(AuthGuard)
+    @Delete()
+    async deleteUser(@Req() req){
+        try{
+            this.logger.log(ENTER, "deleteUser()");
+            const userDetail = req.userDetail;
+            let result = await this.userService.deleteUser(userDetail.uid);
+            this.logger.log(EXIT, "deleteUser()");
+            return result;
+        } catch(err){
+            this.logger.log(ERROR, "deleteUser()");
+            throw err;
+        }   
+    }
+
+	/**
+	 * revoke firebase user token
+	 * @param uid from user request;
+	 * @returns
+	 */
+
+	@ApiBearerAuth("JWT-auth")
+	@UseGuards(AuthGuard)
+	@Get("revokeToken")
+	async revokeToken(@Req() req, @Res() res) {
+		try {
+			this.logger.log(ENTER, "revokeToken()");
+			const userDetail = req.userDetail;
+			let result =await this.userService.revokeRefreshToken(userDetail.uid);
+            this.logger.log(EXIT, "revokeToken()");
+            return result;
+		} catch (err) {
+            this.logger.log(ERROR, err);
+            throw err;
+        }
 	}
 }
