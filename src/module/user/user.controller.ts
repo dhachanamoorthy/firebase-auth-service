@@ -19,7 +19,6 @@ import {
 	CustomUserDetailsDto,
 	UpdateUserRequestDto,
 } from "./dto/update.user.request.dto";
-import { Auth } from "firebase-admin/lib/auth/auth";
 
 @ApiTags("User")
 @Controller("/user")
@@ -94,7 +93,7 @@ export class UserController {
 	 */
 	@ApiBearerAuth("JWT-auth")
 	@UseGuards(AuthGuard)
-	@Patch("/customerInfo")
+	@Patch("/customInfo")
 	async setCustomUserDetails(
 		@Req() req,
 		@Body() userInfo: CustomUserDetailsDto
@@ -139,12 +138,13 @@ export class UserController {
 	@ApiBearerAuth("JWT-auth")
 	@UseGuards(AuthGuard)
 	@Get("revokeToken")
-	async revokeToken(@Req() req, @Res() res) {
+	async revokeToken(@Req() req) {
 		try {
 			this.logger.log(ENTER, "revokeToken()");
 			const userDetail = req.userDetail;
 			let result =await this.userService.revokeRefreshToken(userDetail.uid);
             this.logger.log(EXIT, "revokeToken()");
+            console.log(result);
             return result;
 		} catch (err) {
             this.logger.log(ERROR, err);
