@@ -26,3 +26,14 @@ export class UpdateUserRequestDto {
 	@IsOptional()
 	password: string;
 }
+
+export class CustomUserDetailsDto{
+    @ApiProperty({
+		type: Object,
+		example: {
+            "key":"value"
+        },
+	})
+	@IsOptional()
+	userInfo:Object;
+}
