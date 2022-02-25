@@ -5,7 +5,7 @@ import admin from "firebase-admin";
 import * as dotenv from "dotenv";
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
-
+  app.enableCors();
 	dotenv.config();
 	const config = new DocumentBuilder()
 		.setTitle("Firebase Auth Docummentation")
